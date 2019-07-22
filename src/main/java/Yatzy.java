@@ -133,7 +133,7 @@ public class Yatzy {
     }
 
     public int fullHouse() {
-        return fullHousePair() + fullHouseThreeOfAKind();
+        return scorePair() + threeOfAKind();
     }
 
 
@@ -141,24 +141,6 @@ public class Yatzy {
         for (int i = 0; i < 6; i++) {
             if (tallies[i] >= 3) {
                 return (i + 1) * 3;
-            }
-        }
-        return 0;
-    }
-
-    private int fullHouseThreeOfAKind() {
-        for (int i = 0; i < 6; i++) {
-            if (tallies[i] == 3) {
-                return (i + 1) * 3;
-            }
-        }
-        return 0;
-    }
-
-    private int fullHousePair() {
-        for (int i = 0; i < 6; i++) {
-            if (tallies[i] == 2) {
-                return (i + 1) * 2;
             }
         }
         return 0;
