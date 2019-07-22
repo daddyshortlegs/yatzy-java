@@ -84,14 +84,6 @@ public class Yatzy {
         return sum;
     }
 
-    public int scorePair() {
-        int at;
-        for (at = 0; at != 6; at++)
-            if (tallies[6 - at - 1] >= 2)
-                return (6 - at) * 2;
-        return 0;
-    }
-
     public int twoPair() {
         int n = 0;
         int score = 0;
@@ -106,10 +98,10 @@ public class Yatzy {
             return 0;
     }
 
-    public int threeOfAKind() {
+    public int scorePair() {
         for (int i = 0; i < 6; i++)
-            if (tallies[i] >= 3)
-                return (i + 1) * 3;
+            if (tallies[6 - i - 1] >= 2)
+                return (6 - i) * 2;
         return 0;
     }
 
@@ -141,29 +133,35 @@ public class Yatzy {
     }
 
     public int fullHouse() {
-        boolean _2 = false;
-        int i;
-        int _2_at = 0;
-        boolean _3 = false;
-        int _3_at = 0;
+        return fullHousePair() + fullHouseThreeOfAKind();
+    }
 
 
-        for (i = 0; i != 6; i += 1)
-            if (tallies[i] == 2) {
-                _2 = true;
-                _2_at = i + 1;
+    public int threeOfAKind() {
+        for (int i = 0; i < 6; i++) {
+            if (tallies[i] >= 3) {
+                return (i + 1) * 3;
             }
+        }
+        return 0;
+    }
 
-        for (i = 0; i != 6; i += 1)
+    private int fullHouseThreeOfAKind() {
+        for (int i = 0; i < 6; i++) {
             if (tallies[i] == 3) {
-                _3 = true;
-                _3_at = i + 1;
+                return (i + 1) * 3;
             }
+        }
+        return 0;
+    }
 
-        if (_2 && _3)
-            return _2_at * 2 + _3_at * 3;
-        else
-            return 0;
+    private int fullHousePair() {
+        for (int i = 0; i < 6; i++) {
+            if (tallies[i] == 2) {
+                return (i + 1) * 2;
+            }
+        }
+        return 0;
     }
 
     public int yatzy() {
