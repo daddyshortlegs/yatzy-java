@@ -1,6 +1,7 @@
 public class Yatzy {
 
     private int[] dice;
+    private final int[] tallies;
 
     public Yatzy(int d1, int d2, int d3, int d4, int d5) {
         dice = new int[5];
@@ -9,6 +10,8 @@ public class Yatzy {
         dice[2] = d3;
         dice[3] = d4;
         dice[4] = d5;
+
+        tallies = countDiceValues();
     }
 
     public int chance() {
@@ -82,7 +85,6 @@ public class Yatzy {
     }
 
     public int scorePair() {
-        int[] tallies = countDiceValues();
         int at;
         for (at = 0; at != 6; at++)
             if (tallies[6 - at - 1] >= 2)
@@ -91,7 +93,6 @@ public class Yatzy {
     }
 
     public int twoPair() {
-        int[] tallies = countDiceValues();
         int n = 0;
         int score = 0;
         for (int i = 0; i < 6; i += 1)
@@ -106,7 +107,6 @@ public class Yatzy {
     }
 
     public int threeOfAKind() {
-        int[] tallies = countDiceValues();
         for (int i = 0; i < 6; i++)
             if (tallies[i] >= 3)
                 return (i + 1) * 3;
@@ -114,7 +114,6 @@ public class Yatzy {
     }
 
     public int fourOfAKind() {
-        int[] tallies = countDiceValues();
         for (int i = 0; i < 6; i++)
             if (tallies[i] >= 4)
                 return (i + 1) * 4;
@@ -122,7 +121,6 @@ public class Yatzy {
     }
 
     public int smallStraight() {
-        int[] tallies = countDiceValues();
         if (tallies[0] == 1 &&
                 tallies[1] == 1 &&
                 tallies[2] == 1 &&
@@ -133,7 +131,6 @@ public class Yatzy {
     }
 
     public int largeStraight() {
-        int[] tallies = countDiceValues();
         if (tallies[1] == 1 &&
                 tallies[2] == 1 &&
                 tallies[3] == 1 &&
@@ -150,8 +147,6 @@ public class Yatzy {
         boolean _3 = false;
         int _3_at = 0;
 
-
-        int[] tallies = countDiceValues();
 
         for (i = 0; i != 6; i += 1)
             if (tallies[i] == 2) {
