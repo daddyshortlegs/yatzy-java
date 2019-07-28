@@ -41,7 +41,9 @@ public class Yatzy {
     }
 
     private int sumDice(int i) {
-        return stream(dice).filter(die -> die == i).map(die -> i).sum();
+        return stream(dice)
+                .filter(die -> die == i)
+                .sum();
     }
 
     public int scorePair() {
