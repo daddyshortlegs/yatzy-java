@@ -46,7 +46,11 @@ public class Yatzy {
                 .sum();
     }
 
-    public int scorePair() {
+    public int fullHouse() {
+        return pair() + threeOfAKind();
+    }
+
+    public int pair() {
         return IntStream.range(0, 5)
                 .map(i -> 5 - i)
                 .filter(i -> tallies[i] >= 2)
@@ -94,10 +98,6 @@ public class Yatzy {
                 .orElse(resultingValue);
     }
 
-    public int fullHouse() {
-        return scorePair() + threeOfAKind();
-    }
-
     public int yatzy() {
         return IntStream.range(0, 6)
                 .filter(i -> tallies[i] == 5)
@@ -118,6 +118,3 @@ public class Yatzy {
         return tallies;
     }
 }
-
-
-
