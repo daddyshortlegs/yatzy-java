@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.stream.IntStream;
 
 import static java.util.Arrays.*;
 
@@ -44,82 +44,72 @@ public class Yatzy {
         return stream(dice).filter(die -> die == i).map(die -> i).sum();
     }
 
-    public int twoPair() {
-        int n = 0;
-        int score = 0;
-        for (int i = 0; i < 6; i += 1) {
-            if (tallies[6 - i - 1] >= 2) {
-                n++;
-                score += (6 - i);
-            }
-        }
-
-        if (n == 2) {
-            return score * 2;
-        }
-
-        return 0;
+    public int scorePair() {
+        return IntStream.range(0, 5)
+                .map(i -> 5 - i)
+                .filter(i -> tallies[i] >= 2)
+                .map(i -> (i + 1) * 2)
+                .findFirst()
+                .orElse(0);
     }
 
-    public int scorePair() {
-        for (int i = 5; i >= 0; i--) {
-            if (tallies[i] >= 2) {
-                return (i + 1) * 2;
-            }
-        }
+    public int twoPair() {
+        return IntStream.range(0, 6)
+                .filter(i -> tallies[6 - i - 1] >= 2)
+                .map(i -> 6 - i)
+                .sum() * 2;
+    }
 
-        return 0;
+    public int threeOfAKind() {
+        return xOfAKind(3);
     }
 
     public int fourOfAKind() {
-        for (int i = 0; i < 6; i++)
-            if (tallies[i] >= 4)
-                return (i + 1) * 4;
-        return 0;
+        return xOfAKind(4);
+    }
+
+    private int xOfAKind(int x) {
+        return IntStream.range(0, 6)
+                .filter(i -> tallies[i] >= x)
+                .map(i -> (i + 1) * x)
+                .findFirst()
+                .orElse(0);
     }
 
     public int smallStraight() {
-        for (int i = 0; i < 5; i++) {
-            if (tallies[i] != 1) {
-                return 0;
-            }
-        }
-
-        return 15;
+        return straight(0, 5, 15);
     }
 
     public int largeStraight() {
-        for (int i = 1; i < 6; i++) {
-            if (tallies[i] != 1) {
-                return 0;
-            }
-        }
+        return straight(1, 6, 20);
+    }
 
-        return 20;
+    private int straight(int start, int end, int resultingValue) {
+        return IntStream.range(start, end)
+                .filter(i -> tallies[i] != 1)
+                .map(i -> 0)
+                .findFirst()
+                .orElse(resultingValue);
     }
 
     public int fullHouse() {
         return scorePair() + threeOfAKind();
     }
 
-    public int threeOfAKind() {
-        for (int i = 0; i < 6; i++) {
-            if (tallies[i] >= 3) {
-                return (i + 1) * 3;
-            }
-        }
-        return 0;
-    }
-
     public int yatzy() {
-        for (int i = 0; i != 6; i++)
-            if (tallies[i] == 5)
-                return 50;
-        return 0;
+        return IntStream.range(0, 6)
+                .filter(i -> tallies[i] == 5)
+                .map(i -> 50)
+                .findFirst()
+                .orElse(0);
     }
 
     private int[] countDiceValues() {
         int[] tallies = new int[6];
+
+//        stream(dice).mapToLong(die -> tallies[die - 1]++).mapToInt(i -> i.intValue()).toArray();
+//        Arrays.stream(dice).mapToLong(die -> tallies[die - 1]++).toArray(int[]::new);
+
         for (int die : dice) {
             tallies[die - 1]++;
         }
